@@ -30,10 +30,6 @@ const WeatherData = ({ city }) => {
     const fetchWeather = async () => {
       setLoading(true)
       try {
-        if (!city.trim()) {
-          setError("City name cannot be empty.");
-          return;
-        }
         const response = await fetch(`${API_BASE_URL}/weather?city=${city}`, {
           method: "GET",
           credentials: "include",
