@@ -50,7 +50,7 @@ const WeatherData = ({ city }) => {
           "Weather service unavailable. Please try again later"
         ) {
           throw new Error(
-            "Weather service is currently unavailable. Please try again later."
+            "Enter valid city"
           );
         }
 

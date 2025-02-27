@@ -9,9 +9,7 @@ import { TextField, Button, Container, Typography, Alert, Box,Link } from "@mui/
 const LoginForm = () => {
   const [serverError, setServerError] = useState("");
   const navigate = useNavigate();
-
   const { setIsAuthenticated} = useAuth();
-
   const { API_BASE_URL } = config;
 
   const validationSchema = Yup.object({

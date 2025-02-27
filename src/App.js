@@ -6,7 +6,6 @@ import WeatherApp from "./components/WeatherApp";
 import Wishlist from "./components/Wishlist";
 import { AuthProvider } from "./context/AuthContext"
 import ProtectedRoute from "./components/ProtectedRoute";
-import Footer from "./components/Footer";
 import "./App.css";
 
 function App() {

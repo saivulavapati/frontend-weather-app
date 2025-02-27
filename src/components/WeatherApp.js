@@ -31,11 +31,14 @@ const WeatherApp = () => {
 
   }
 
-  const searchCity = searchParams.get("city") || "Hyderabad"; // Default city
+  const searchCity = searchParams.get("city") || "Hyderabad"; 
 
   const handleSearch = (e) => {
     e.preventDefault();
-    if (!city.trim()) return;
+    if (!city.trim()){
+       alert("City cannot be Empty..")
+    return
+    };
     setSearchParams({ city });
     setCity(""); 
   };

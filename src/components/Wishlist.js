@@ -88,7 +88,7 @@ const Favourites = () => {
                 <td>{city.cityName}</td>
                 <td>
                   <button className="btn btn-primary me-2" onClick={() => handleViewWeather(city.cityName)}>
-                    View Weather
+                    View
                   </button>
                   <button className="btn btn-danger" onClick={() => handleRemove(city.cityName)}>
                     Remove
