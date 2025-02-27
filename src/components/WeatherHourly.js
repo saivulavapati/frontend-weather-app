@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
 import config from "../utils/config";
+import ThermostatIcon from "@mui/icons-material/Thermostat";
+import CircularProgress from "@mui/material/CircularProgress"; 
+import Container from "@mui/material/Container";
+import AirIcon from "@mui/icons-material/Air";
+import OpacityIcon from "@mui/icons-material/Opacity";
+
 
 const WeatherHourly = ({ lat, lon }) => {
   const [hourlyForecast, setHourlyForecast] = useState([]);
@@ -23,7 +29,7 @@ const WeatherHourly = ({ lat, lon }) => {
         `${API_BASE_URL}/weather/forecast?lat=${lat}&lon=${lon}`,
         {
           method: "GET",
-          credentials: "include", // Ensures JWT authentication works
+          credentials: "include",
         }
       );
 
@@ -56,13 +62,9 @@ const WeatherHourly = ({ lat, lon }) => {
 
   if (loading) {
     return (
-      <div className="container-fluid">
-        <div className="row">
-          <div className="col-12 text-center">
-            <p>Loading hourly forecast...</p>
-          </div>
-        </div>
-      </div>
+      <Container sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "40vh" }}>
+        <CircularProgress />
+      </Container>
     );
   }
 
@@ -98,9 +100,9 @@ const WeatherHourly = ({ lat, lon }) => {
                   <p className="text-capitalize">
                     {forecast.weather[0].description}
                   </p>
-                  <p>{forecast.main.temp}°C</p>
-                  <p>{forecast.main.humidity}%</p>
-                  <p>{(forecast.wind.speed * 3.6).toFixed(2)} km/hr</p>
+                  <p><ThermostatIcon/>{forecast.main.temp}°C</p>
+                  <p><OpacityIcon/>{forecast.main.humidity}%</p>
+                  <p><AirIcon/>{(forecast.wind.speed * 3.6).toFixed(2)} km/hr</p>
                 </div>
               ))}
               </div>

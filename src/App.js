@@ -4,9 +4,10 @@ import RegistrationForm from "./components/RegistrationForm";
 import LoginForm from "./components/LoginForm";
 import WeatherApp from "./components/WeatherApp";
 import Wishlist from "./components/Wishlist";
-import "./App.css";
 import { AuthProvider } from "./context/AuthContext"
 import ProtectedRoute from "./components/ProtectedRoute";
+import Footer from "./components/Footer";
+import "./App.css";
 
 function App() {
   return (

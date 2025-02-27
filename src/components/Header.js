@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, use } from "react";
 import { useNavigate, NavLink } from "react-router-dom";
 import { useAuth } from "../context/AuthContext"
 import weatherLogo from "../images/weatherLogo.webp"
@@ -14,18 +14,24 @@ const Header = () => {
     navigate("/");
   };
 
+  const profileName = user != null? user.split('@')[0]:"User"
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setShowOptions(false);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  useEffect(() => {
+    setShowOptions(false);
+  }, [isAuthenticated]);
+
 
   return (
     <nav className="bg-light p-3 d-flex justify-content-between align-items-center shadow-sm">
@@ -51,20 +57,15 @@ const Header = () => {
 
             <div className="position-relative" ref={dropdownRef}>
               <button 
-                className="btn btn-outline-secondary mx-2"
+                className="btn btn-outline-secondary mx-2 text-capitalize"
                 onClick={() => setShowOptions(!showOptions)}
               >
-                {user || "User"}
+                {profileName}
               </button>
 
               {showOptions && (
                 <ul className="dropdown-menu show position-absolute" style={{ right: 0 }}>
-                  <li>
-                    <NavLink to="/profile" className="dropdown-item">
-                      Profile
-                    </NavLink>
-                  </li>
-                  <li>
+                  <li className="mt-2">
                     <button className="dropdown-item text-danger" onClick={handleLogout}>
                       Logout
                     </button>

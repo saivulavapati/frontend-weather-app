@@ -9,9 +9,12 @@ import WbTwilightIcon from "@mui/icons-material/WbTwilight";
 import SolarPowerIcon from "@mui/icons-material/SolarPower";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import CircularProgress from "@mui/material/CircularProgress"; 
+import Container from "@mui/material/Container";
 import config from "../utils/config";
 import WeatherHourly from "./WeatherHourly";
 import { formatDate,formatTime } from "../utils/config";
+
 
 const WeatherData = ({ city }) => {
   const [weatherData, setWeatherData] = useState(null);
@@ -19,13 +22,13 @@ const WeatherData = ({ city }) => {
   const [lastUpdated, setLastUpdated] = useState(null);
   const [isFavourite,setIsFavourite] = useState(false)
   const [showHourly,setShowHourly] = useState(false)
-
-
+  const [loading,setLoading] = useState(true)
 
   const { API_BASE_URL } = config;
 
   useEffect(() => {
     const fetchWeather = async () => {
+      setLoading(true)
       try {
         if (!city.trim()) {
           setError("City name cannot be empty.");
@@ -60,6 +63,8 @@ const WeatherData = ({ city }) => {
       } catch (error) {
         setError(error.message);
         setWeatherData(null);
+      }finally {
+        setLoading(false);
       }
     };
     const checkIfFavourite = async () => {
@@ -86,9 +91,7 @@ const WeatherData = ({ city }) => {
     checkIfFavourite();
   }, [city]); 
 
-  if (error) return <p className="text-danger text-center mt-3">{error}</p>;
-
-  const handleAddToFavourite = async () => {
+  const handleAddToFavourite = async (city) => {
     try {
       const action = isFavourite ? "remove" : "add";
       const response = await fetch(
@@ -102,16 +105,26 @@ const WeatherData = ({ city }) => {
         throw new Error("Failed to update wishlist");
       }
       setIsFavourite((prev) => !prev);
-      alert(`City ${isFavourite ? "removed from" : "added to"} Favourites`);
+      alert(`${city} ${isFavourite ? "removed from" : "added to"} Favourites`);
     } catch (error) {
       setError(error.message);
     }
   };
 
+  if(loading){
+    return(
+      <Container sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "40vh" }}>
+        <CircularProgress />
+      </Container>
+    )
+  }
+
+  if (error) return <p className="text-danger text-center mt-3">{error}</p>;
+
 
   return (
     <>
-      {weatherData ? (
+      {weatherData && (
         <>
           <div className="row mt-3">
             <div className="col-sm-12 col-md-8 mx-auto p-3 bg-light border">
@@ -127,7 +140,7 @@ const WeatherData = ({ city }) => {
                       {weatherData.sys.country}
                     </span>
                   </h1>
-                  <button className="btn" onClick={handleAddToFavourite}>
+                  <button className="btn" onClick={()=>handleAddToFavourite(weatherData.name)}>
                     {isFavourite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
                   </button>
                 </div>
@@ -161,10 +174,12 @@ const WeatherData = ({ city }) => {
                 <p>{lastUpdated}</p>
               </div>
               <div className="d-flex">
+                <div>
                 <img
                   src={`https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`}
                   alt="Weather Icon"
                 />
+                </div>
                 <div className="mx-2">
                   <span>Feels Like</span>
                   <h1>{Math.round(weatherData.main.feels_like)}°C</h1>
@@ -239,9 +254,8 @@ const WeatherData = ({ city }) => {
           </div>
           {showHourly && <WeatherHourly lat={weatherData.coord.lat} lon={weatherData.coord.lon}/>}
         </>
-      ) : (
-        <p className="text-center">Loading weather data...</p>
-      )}
+      ) 
+      }
     </>
   );
 };

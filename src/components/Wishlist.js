@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import config from "../utils/config";
+import CircularProgress from "@mui/material/CircularProgress"; 
+import Container from "@mui/material/Container";
 
 const Favourites = () => {
   const navigate = useNavigate();
   const [favourites, setFavourites] = useState([]);
+  const [loading,setLoading] = useState(true);
 
   const {API_BASE_URL} = config
 
@@ -13,6 +16,7 @@ const Favourites = () => {
   },[])
 
   const getWishlistCities = async () => {
+    setLoading(true)
     try{
       const response = await fetch(`${API_BASE_URL}/wishlist`,{
         method:"GET",
@@ -27,6 +31,8 @@ const Favourites = () => {
       }
     }catch(error){
       alert(error.message);
+    }finally{
+      setLoading(false);
     }
   }
 
@@ -50,6 +56,14 @@ const Favourites = () => {
   const handleViewWeather = (city) => {
     navigate(`/weather?city=${city}`);
   };
+
+  if (loading) {
+    return (
+      <Container sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "40vh" }}>
+        <CircularProgress />
+      </Container>
+    );
+  }
 
   return (
     <div className="container mt-3">

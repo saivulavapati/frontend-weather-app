@@ -22,7 +22,7 @@ const WeatherApp = () => {
       });
       if(response.ok){
         const data = await response.json();
-        setUser(data.username.split('@')[0])
+        setUser(data.username)
       }
     }catch(error){
       alert(error.message)
