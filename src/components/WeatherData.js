@@ -101,7 +101,6 @@ const WeatherData = ({ city }) => {
         throw new Error("Failed to update wishlist");
       }
       setIsFavourite((prev) => !prev);
-      alert(`${city} ${isFavourite ? "removed from" : "added to"} Favourites`);
     } catch (error) {
       setError(error.message);
     }

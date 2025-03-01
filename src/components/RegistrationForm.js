@@ -129,6 +129,7 @@ const RegistrationForm = () => {
               <TextField
                 fullWidth
                 margin="dense"
+                id="password"
                 label="Password"
                 name="password"
                 type="password"
@@ -142,6 +143,7 @@ const RegistrationForm = () => {
               <TextField
                 fullWidth
                 margin="dense"
+                id="confirmPassword"
                 label="Confirm Password"
                 name="confirmPassword"
                 type="password"
