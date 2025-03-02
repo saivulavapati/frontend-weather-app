@@ -9,7 +9,7 @@ import { TextField, Button, Container, Typography, Alert, Box,Link } from "@mui/
 const LoginForm = () => {
   const [serverError, setServerError] = useState("");
   const navigate = useNavigate();
-  const { setIsAuthenticated} = useAuth();
+  const { setIsAuthenticated,setUser} = useAuth();
   const { API_BASE_URL } = config;
 
   const validationSchema = Yup.object({
@@ -31,6 +31,7 @@ const LoginForm = () => {
   
       if (response.ok) {
         setIsAuthenticated(true);
+        setUser(values.email);
         navigate("/weather");
       } else if (response.status === 404) {
         setServerError("User does not exist. Please register.");
