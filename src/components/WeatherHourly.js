@@ -5,8 +5,6 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Container from "@mui/material/Container";
 import AirIcon from "@mui/icons-material/Air";
 import OpacityIcon from "@mui/icons-material/Opacity";
-import { formatTime } from "../utils/config";
-
 
 const WeatherHourly = ({ lat, lon }) => {
   const [hourlyForecast, setHourlyForecast] = useState([]);
@@ -51,6 +49,14 @@ const WeatherHourly = ({ lat, lon }) => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const formatTime = (dt_txt) => {
+    const date = new Date(dt_txt);
+    return date.toLocaleTimeString("en-IN", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
   };
 
   if (loading) {
